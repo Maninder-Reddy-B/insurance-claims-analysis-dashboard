@@ -1,0 +1,791 @@
+/* Professional Corporate Light Theme */
+:root {
+    --bg-primary: #f3f6f9;     /* Canvas background */
+    --bg-secondary: #ffffff;   /* Sidebar background */
+    --bg-card: #ffffff;        /* Visual container background */
+    --bg-card-hover: #fafbfc;
+    --bg-input: #ffffff;
+    --border-color: #d8dbdf;
+    --border-hover: #b0b5bc;
+    
+    --text-primary: #252423;   /* Microsoft Power BI default dark text */
+    --text-secondary: #605e5c; /* Secondary label text */
+    --text-muted: #a19f9d;
+    
+    /* Corporate Accent Palette */
+    --accent-primary: #118dff;  /* Power BI Blue */
+    --accent-secondary: #12239e;/* Power BI Dark Blue */
+    --accent-light: #e6f3ff;
+    
+    /* Status Colors */
+    --color-approved: #107c41;   /* Forest Green */
+    --color-approved-bg: #e1f5fe;/* Soft cyan-green tint */
+    --color-rejected: #a80000;   /* Deep Red */
+    --color-rejected-bg: #fde7e9;/* Soft red tint */
+    --color-pending: #8a6b00;    /* Muted Yellow-Gold */
+    --color-pending-bg: #fff4ce; /* Soft yellow tint */
+    
+    --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'Roboto Mono', Consolas, Monaco, monospace;
+    
+    --radius-lg: 8px;
+    --radius-md: 4px;
+    --radius-sm: 2px;
+    --transition: all 0.15s ease-in-out;
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar styling - Standard Corporate Panel */
+.sidebar {
+    width: 300px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+    letter-spacing: -0.2px;
+}
+
+.logo i {
+    color: var(--accent-primary);
+    font-size: 1.25rem;
+}
+
+.sidebar-section {
+    flex-grow: 1;
+}
+
+.sidebar-section h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.filter-group {
+    margin-bottom: 1.25rem;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.date-inputs span {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.date-inputs input[type="date"] {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: 0.35rem 0.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    outline: none;
+}
+
+.date-inputs input[type="date"]:focus {
+    border-color: var(--accent-primary);
+}
+
+/* Checkbox Design */
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 140px;
+    overflow-y: auto;
+    padding: 0.25rem;
+    border: 1px solid #e1e1e1;
+    background-color: #fafbfc;
+    border-radius: var(--radius-md);
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 1.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0.15rem;
+    left: 0;
+    height: 0.95rem;
+    width: 0.95rem;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 3px;
+    top: 1px;
+    width: 3px;
+    height: 6px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.sidebar-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.sidebar-footer .author {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Main Workspace */
+.main-content {
+    flex-grow: 1;
+    padding: 1.5rem 2rem;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    background-color: var(--bg-secondary);
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.header-titles h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+}
+
+.header-titles p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0b76d9;
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #f3f6f9;
+}
+
+/* KPI Cards Layout */
+.kpi-ribbon {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.kpi-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    font-size: 1.15rem;
+}
+
+/* Clean, standard corporate category borders */
+.icon-claims { background-color: #e3f2fd; color: #1e88e5; }
+.icon-claimed { background-color: #ede7f6; color: #5e35b1; }
+.icon-payout { background-color: #e8f5e9; color: #43a047; }
+.icon-rate { background-color: #fff8e1; color: #ffb300; }
+.icon-time { background-color: #fbe9e7; color: #f4511e; }
+
+.kpi-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.kpi-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.05rem 0;
+}
+
+.kpi-subtext {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+/* Visualizations Grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-span-2 {
+    grid-column: span 2;
+}
+
+.chart-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.chart-header {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 0.5rem;
+}
+
+.chart-header h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chart-header p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 260px;
+    width: 100%;
+}
+
+/* DAX Reference Sheet layout */
+.dax-simulator-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.simulator-header {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 0.5rem;
+}
+
+.simulator-header h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.simulator-header p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.simulator-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 1.25rem;
+}
+
+/* Selector Panel */
+.measures-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-height: 320px;
+}
+
+.measure-btn {
+    background-color: #fafbfc;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.measure-btn:hover {
+    background-color: #f1f3f5;
+}
+
+.measure-btn.active {
+    background-color: var(--accent-light);
+    border-color: var(--accent-primary);
+    color: var(--accent-secondary);
+}
+
+.measure-btn i {
+    font-size: 0.75rem;
+}
+
+/* Light code sheet design for DAX code display */
+.dax-console {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+}
+
+.console-header {
+    background-color: #f8fafc;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 0.75rem;
+}
+
+.console-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.console-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.dax-code-block {
+    background-color: #f8fafc;
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+}
+
+.dax-code-block pre {
+    margin: 0;
+}
+
+.dax-code-block code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #334155;
+    white-space: pre-wrap;
+}
+
+.measure-explanation {
+    border-left: 2px solid var(--accent-primary);
+    padding-left: 0.75rem;
+}
+
+.measure-explanation h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+}
+
+.measure-explanation p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.measure-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+}
+
+.result-label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.result-value {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+}
+
+/* Data Table Card Styles */
+.table-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.table-header-left h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.table-header-left p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.search-box {
+    position: relative;
+    width: 280px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.search-box input {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.4rem 0.75rem 0.4rem 2rem;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: var(--accent-primary);
+}
+
+/* Responsive Table */
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f8fafc;
+    color: var(--text-primary);
+    font-weight: 700;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Status Pill Design */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.status-pill::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.status-approved {
+    background-color: var(--color-approved-bg);
+    color: var(--color-approved);
+}
+.status-approved::before { background-color: var(--color-approved); }
+
+.status-rejected {
+    background-color: var(--color-rejected-bg);
+    color: var(--color-rejected);
+}
+.status-rejected::before { background-color: var(--color-rejected); }
+
+.status-pending {
+    background-color: var(--color-pending-bg);
+    color: var(--color-pending);
+}
+.status-pending::before { background-color: var(--color-pending); }
+
+/* Table Footer & Pagination */
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-info {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.table-info span {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.pagination {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.page-link {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.3rem 0.5rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+}
+
+.page-link:hover:not(.disabled) {
+    background-color: #f1f3f5;
+    color: var(--text-primary);
+}
+
+.page-link.active {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    border-color: var(--accent-primary);
+}
+
+.page-link.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* DAX formula highlight colors for light theme code display */
+.dax-keyword { color: #d73a49; font-weight: 600; }
+.dax-function { color: #6f42c1; font-weight: 600; }
+.dax-string { color: #032f62; }
+.dax-comment { color: #6a737d; font-style: italic; }
+.dax-table { color: #b31d28; }
+.dax-column { color: #e36209; }
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+    .kpi-ribbon {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    .card-span-2 {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .app-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .main-content {
+        height: auto;
+        padding: 1rem;
+    }
+    .simulator-layout {
+        grid-template-columns: 1fr;
+    }
+}

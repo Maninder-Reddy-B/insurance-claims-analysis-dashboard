@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Claims Performance Dashboard</title>
+    
+    <!-- Standard Corporate Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation & Filters -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Claims Analytics</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fa-solid fa-filter"></i> Report Filters</h3>
+                
+                <!-- Date Filters -->
+                <div class="filter-group">
+                    <label>Claim Date Range</label>
+                    <div class="date-inputs">
+                        <input type="date" id="filter-start-date" value="2024-01-01" min="2024-01-01" max="2025-12-31">
+                        <span>to</span>
+                        <input type="date" id="filter-end-date" value="2025-12-31" min="2024-01-01" max="2025-12-31">
+                    </div>
+                </div>
+                
+                <!-- Product Types -->
+                <div class="filter-group">
+                    <label>Product Categories</label>
+                    <div class="checkbox-list" id="filter-products">
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Auto" checked> Auto
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Health" checked> Health
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Home" checked> Home
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Life" checked> Life
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Travel" checked> Travel
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Regions -->
+                <div class="filter-group">
+                    <label>Regions</label>
+                    <div class="checkbox-list" id="filter-regions">
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="North" checked> North
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="South" checked> South
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="East" checked> East
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="West" checked> West
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Central" checked> Central
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Customer Segments -->
+                <div class="filter-group">
+                    <label>Customer Segments</label>
+                    <div class="checkbox-list" id="filter-segments">
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Individual" checked> Individual
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="Corporate" checked> Corporate
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="SME" checked> SME
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary" id="reset-filters">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Filters
+                </button>
+            </div>
+            
+            <div class="sidebar-footer">
+                <p>Data Analytics Portfolio Project</p>
+                <p class="author">Prepared by: Maninder Reddy</p>
+            </div>
+        </aside>
+        
+        <!-- Main Dashboard Workspace -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-titles">
+                    <h1>Insurance Claims Analysis Report</h1>
+                    <p>Analysis of claim intakes, payouts, and rejection rates from 8,400+ cleaned records</p>
+                </div>
+                <div class="header-actions">
+                    <a href="cleaned_claims_data.csv" download class="btn btn-primary" id="download-csv-btn">
+                        <i class="fa-solid fa-download"></i> Export Cleaned CSV
+                    </a>
+                </div>
+            </header>
+            
+            <!-- KPI Cards Ribbon -->
+            <section class="kpi-ribbon">
+                <!-- Card 1 -->
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-claims">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Claims</span>
+                        <h2 class="kpi-value" id="kpi-total-claims">-</h2>
+                        <span class="kpi-subtext">Received & processed</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-claimed">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Claimed Value</span>
+                        <h2 class="kpi-value" id="kpi-claimed-amt">-</h2>
+                        <span class="kpi-subtext">Total demanded</span>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-payout">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Payouts</span>
+                        <h2 class="kpi-value" id="kpi-payout-amt">-</h2>
+                        <span class="kpi-subtext">Disbursed claims</span>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-rate">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Claim Approval Rate</span>
+                        <h2 class="kpi-value" id="kpi-approval-rate">-</h2>
+                        <span class="kpi-subtext">Approved vs Total</span>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-time">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Avg. Processing Cycle</span>
+                        <h2 class="kpi-value" id="kpi-processing-time">-</h2>
+                        <span class="kpi-subtext">Settle duration (Days)</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Dashboard Visualization Grid -->
+            <section class="charts-grid">
+                <!-- Chart 1: Claim Trends -->
+                <div class="chart-card card-span-2">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-chart-line"></i> Monthly Claim Volumes & Approval Trends</h3>
+                        <p>Monthly distribution of claim intakes and respective approval percentages</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-trends"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Chart 2: Payout vs Claimed -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-chart-bar"></i> Total Claimed vs. Paid Out by Product</h3>
+                        <p>Financial margins by product category</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-product-comparison"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Chart 3: Rejections -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Rejection Reason Breakdown</h3>
+                        <p>Distribution of claims denial categories</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-rejections"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Chart 4: Segment Performance -->
+                <div class="chart-card card-span-2">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-users"></i> Customer Segment Performance</h3>
+                        <p>Claim density and average payout across customer segments</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-segments"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Interactive DAX Measure Reference Panel -->
+            <section class="dax-simulator-card">
+                <div class="simulator-header">
+                    <h2><i class="fa-solid fa-calculator"></i> Interactive DAX Measure Reference Panel</h2>
+                    <p>Select a DAX measure from the list to view its formula syntax, calculation description, and dynamic output against the current filters</p>
+                </div>
+                
+                <div class="simulator-layout">
+                    <!-- Measures List -->
+                    <div class="measures-selector" id="dax-measures-list">
+                        <!-- Measures generated in app.js -->
+                    </div>
+                    
+                    <!-- Code & Output Area -->
+                    <div class="dax-console">
+                        <div class="console-header">
+                            <span class="console-title"><i class="fa-solid fa-code"></i> DAX Measure Reference Definition</span>
+                        </div>
+                        <div class="console-body">
+                            <div class="dax-code-block">
+                                <pre><code id="dax-code-display">// Select a measure</code></pre>
+                            </div>
+                            <div class="measure-explanation">
+                                <h4>Logic Explanation</h4>
+                                <p id="dax-explanation-display">Select a DAX measure to see how it operates in Power BI.</p>
+                            </div>
+                            <div class="measure-result">
+                                <span class="result-label">LIVE MEASURE VALUE (FILTERED)</span>
+                                <div class="result-value" id="dax-result-display">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Data Explorer Table -->
+            <section class="table-card">
+                <div class="table-header">
+                    <div class="table-header-left">
+                        <h2><i class="fa-solid fa-table"></i> Cleaned Claims Dataset Explorer</h2>
+                        <p>Drill down into individual claims records</p>
+                    </div>
+                    <div class="table-header-right">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="table-search" placeholder="Search Claim/Customer ID or Region...">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Claim ID</th>
+                                <th>Date</th>
+                                <th>Customer ID</th>
+                                <th>Segment</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Region</th>
+                                <th>Product</th>
+                                <th class="text-right">Claimed Amt</th>
+                                <th>Status</th>
+                                <th class="text-right">Payout Amt</th>
+                                <th>Rejection Reason</th>
+                                <th>Cycle (Days)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Rows generated in app.js -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-footer">
+                    <div class="table-info">
+                        Showing <span id="table-showing-start">0</span> to <span id="table-showing-end">0</span> of <span id="table-showing-total">0</span> records
+                    </div>
+                    <div class="pagination" id="table-pagination">
+                        <!-- Pagination controls -->
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+    
+    <!-- Load Cleaned Claims Data -->
+    <script src="claims_data.js"></script>
+    <!-- Load Dashboard Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
